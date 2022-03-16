@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const prodcutschema = mongoose.Schema({
+const prodcutschema = new mongoose.Schema({
     name:{
         type:String,
         required:[true,"please enter product name"],
