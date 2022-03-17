@@ -2,6 +2,7 @@ const Product = require("../models/productmodels")
 const catchasyncerrors = require("../middelware/catchasyncerror")
 const Errorhandler = require("../utils/errorhandler");
 const Apifeatures = require("../utils/apifeatures");
+const { reverse } = require("dns");
 
 //create product:- admin
 exports.createproduct =catchasyncerrors(async (req,res)=>{
@@ -66,4 +67,42 @@ exports.getproductdetails =catchasyncerrors(async(req,res,next)=>{
         success:true,
         product
     })
+})
+
+//create new review or update the review
+exports.createproductreview=catchasyncerrors(async(req,res,next)=>{
+    const {rating,comment,productid}= req.body
+    const review={
+        user:req.user._id,
+        name:req.user.name,
+        rating:Number(rating),
+        comment
+    }
+    const product =await Product.findById(productid);
+    const isreviewed= product.reviews.find(rev=>rev.user.toString()===req.user._id.toString())
+    if(isreviewed){
+product.review.forEach(rev=>{
+
+    if(rev.user.toString()===req.user._id.toString())
+    rev.rating=rating,
+    rev.comment=comment
+})
+    }else{
+        product.reviews.push(review)
+        product.numberofreviews=product.reviews.length
+    }
+    //rating logic
+    let avg = 0
+    product.ratings = product.reviews.forEach(rev=>{
+        avg+=rev.rating
+    })
+    product.ratings =avg/product.reviews.length
+
+await product.save({
+    validateBeforeSave:false
+})
+
+res.status(200).json({
+    success:true
+})
 })

@@ -1,5 +1,5 @@
 const express = require("express")
-const { registername, loginuser, logout, frogotpassword, resetpassword, updateprofile, getalluser, getsingleuser, getuserdetails, updatepassword, loginUser } = require("../controllers/usercontroller")
+const { registername, loginuser, logout, frogotpassword, resetpassword, updateprofile, getalluser, getsingleuser, getuserdetails, updatepassword, loginUser, updaterol, deleteuser, updateUserRole } = require("../controllers/usercontroller")
 const { isauthenticateduser, authorizeroles } = require("../middelware/auth")
 const router =express.Router()
 router.route("/register").post(registername)
@@ -11,5 +11,5 @@ router.route("/password/update").put(isauthenticateduser,updatepassword)
 router.route("/me").get(isauthenticateduser,getuserdetails)
 router.route("/me/update").put(isauthenticateduser,updateprofile)
 router.route("/admin/users").get(isauthenticateduser,authorizeroles("admin"),getalluser)
-router.route("/admin/users/:id").get(isauthenticateduser,authorizeroles("admin"),getsingleuser)
+router.route("/admin/users/:id").get(isauthenticateduser,authorizeroles("admin"),getsingleuser).put(isauthenticateduser,authorizeroles("admin"),updateUserRole).delete(isauthenticateduser,authorizeroles("admin"),deleteuser)
 module.exports =router
