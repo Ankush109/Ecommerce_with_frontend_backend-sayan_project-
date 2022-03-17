@@ -58,6 +58,12 @@ type:String
             }
         }
     ],
+    user:{
+        type:mongoose.Schema.ObjectId,
+        ref:"user",
+        required:true,
+
+    },
     createdat:{
         type:Date,
         default:Date.now

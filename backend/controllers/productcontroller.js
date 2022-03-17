@@ -5,6 +5,7 @@ const Apifeatures = require("../utils/apifeatures");
 
 //create product:- admin
 exports.createproduct =catchasyncerrors(async (req,res)=>{
+    req.body.user = req.user.id
     const product =await Product.create(req.body);
     res.status(201).json({
         success:true,
@@ -25,6 +26,7 @@ exports.getallproducts = catchasyncerrors(async(req,res)=>{
 })
 //update product --admin
 exports.updateproduct = catchasyncerrors(async (req,res,next)=>{
+
     let product =await Product.findById(req.params.id);
     if(!product){
         return res.status(500).json({
