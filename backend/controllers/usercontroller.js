@@ -20,23 +20,31 @@ exports.registername =catchasyncerrors(async(req,res,next)=>{
     sendToken(user,201,res)
 })
 
-//login user 
-exports.loginuser = catchasyncerrors(async (req,res,next)=>{
-    const {email,password} = req.body
-    //checking if user has given password and email both
-    if(!email || !password){
-        return next(new Errorhandler("please enter email & password",400))
+// Login User
+exports.loginUser = catchasyncerrors(async (req, res, next) => {
+    const { email, password } = req.body;
+  
+    // checking if user has given password and email both
+  
+    if (!email || !password) {
+      return next(new Errorhandler("Please Enter Email & Password", 400));
     }
-    const user = await User.findOne({email}).select("+password")
-    if(!user){
-        return next(new Errorhandler("invalid email or password",401))
+  
+    const user = await User.findOne({ email }).select("+password");
+  
+    if (!user) {
+      return next(new Errorhandler("Invalid email or password", 401));
     }
-    const ispassword =user.comparePassword(password)
-    if(!ispassword){
-        return next(new Errorhandler("invalid email or password",401))
+  
+    const isPasswordMatched = await user.comparePassword(password);
+  
+    if (!isPasswordMatched) {
+      return next(new Errorhandler("Invalid email or password", 401));
     }
-   sendToken(user,200,res)
-})
+  
+    sendToken(user, 200, res);
+  });
+  
 //logout user 
 exports.logout = catchasyncerrors(async (req,res,next)=>{
     res.cookie("token",null,{
@@ -98,6 +106,7 @@ exports.resetpassword =catchasyncerrors(async(req,res,next)=>{
   await  user.save()
   sendToken(user,200,res)
 })
+
 //update user profile
 exports.updateprofile=catchasyncerrors(async (req,res,next)=>{
     const newUserdata ={
@@ -140,4 +149,29 @@ exports.getsingleuser =catchasyncerrors(async(req,res,next)=>{
         success:true,
         user
     })
+})
+//get user detail 
+exports.getuserdetails =catchasyncerrors(async(req,res,next)=>{
+    const user =await User.findById(req.user.id)
+    res.status(200).json({
+        success:true,
+        user,
+    })
+})
+//update user password
+
+exports.updatepassword =catchasyncerrors(async(req,res,next)=>{
+    const user =await User.findById(req.user.id).select("+password")
+    const ispasswordmatched =await user.comparePassword(req.body.oldpassword);
+    if(!ispasswordmatched){
+        return next(new Errorhandler("old password is incorrect",401))
+    }
+    if(req.body.newpassword!==req.body.confirmpassword){
+        return next(new Errorhandler("password doesnot match",401))
+    }
+
+    user.password=req.body.newpassword
+    await user.save()
+    sendToken(user,200,res) 
+  
 })
