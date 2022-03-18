@@ -2,7 +2,7 @@ const Product = require("../models/productmodels")
 const catchasyncerrors = require("../middelware/catchasyncerror")
 const Errorhandler = require("../utils/errorhandler");
 const Apifeatures = require("../utils/apifeatures");
-const { reverse } = require("dns");
+
 
 //create product:- admin
 exports.createproduct =catchasyncerrors(async (req,res)=>{
@@ -81,7 +81,7 @@ exports.createproductreview=catchasyncerrors(async(req,res,next)=>{
     const product =await Product.findById(productid);
     const isreviewed= product.reviews.find(rev=>rev.user.toString()===req.user._id.toString())
     if(isreviewed){
-product.review.forEach(rev=>{
+product.reviews.forEach(rev=>{
 
     if(rev.user.toString()===req.user._id.toString())
     rev.rating=rating,
@@ -105,4 +105,45 @@ await product.save({
 res.status(200).json({
     success:true
 })
+})
+
+
+//to get all reviews of a single product
+exports.getprodutreviews =catchasyncerrors(async(req,res,next)=>{
+    const product =await Product.findById(req.query.id)
+    if(!product){
+        return next(new Errorhandler("product not found",404))
+    }
+    res.status(200).json({
+        success:true,
+        reviews:product.reviews
+    })
+})
+//delete review
+exports.deleteproductreview =catchasyncerrors(async(req,res,next)=>{
+    const product =await Product.findById(req.query.productid)
+    if(!product){
+        return next(new Errorhandler("product not found",404))
+    }
+   const reviews= product.reviews.filter(rev=>rev._id.toString()!=req.query.id.toString())
+       //rating logic
+       let avg = 0
+     reviews.forEach(rev=>{
+           avg+=rev.rating
+       })
+   const ratings =avg/reviews.length
+   const numberofreviews = reviews.length;
+   await Product.findByIdAndUpdate(req.query.productid,{
+       reviews,
+       ratings,
+       numberofreviews,
+   }),{
+       new:true,
+       runValidators:true,
+       useFindAndModify:false
+   }
+   res.status(200).json({
+       success:true
+   })
+
 })
