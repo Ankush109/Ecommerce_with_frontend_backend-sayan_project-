@@ -56,6 +56,7 @@ exports.getallorder =catchasyncerrors(async(req,res,next)=>{
 exports.updateorderstatus =catchasyncerrors(async(req,res,next)=>{
     const orders =await Order.findById(req.params.id)
  
+ 
 
     if(orders.orderstatus==="delivered"){
         return next(new Errorhandler("you have already order this order",404))
@@ -95,7 +96,11 @@ await product.save({validateBeforeSave:false})
 //delete order  ---admin
 
 exports.deleteorder =catchasyncerrors(async(req,res,next)=>{
-    const orders =await Order.find(req.params.id)
+
+    const orders =await Order.findById(req.params.id)
+    if(!orders){
+        return next(new Errorhandler("order not found with this id",404))
+    }
  await orders.remove()
     res.status(200).json({
         success:true,
