@@ -6,7 +6,7 @@ import Navbar from "./components/header/Header";
 import webfont from "webfontloader"
 import Footer from "./components/footer/footer";
 import Home from "./components/home/home";
-
+import "./App.css"
 
 function App() {
   React.useEffect(() => {
