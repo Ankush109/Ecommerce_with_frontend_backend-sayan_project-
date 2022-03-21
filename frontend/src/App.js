@@ -8,6 +8,7 @@ import Footer from "./components/footer/footer";
 import Home from "./components/home/home";
 import "./App.css"
 
+
 function App() {
   React.useEffect(() => {
     webfont.load({
@@ -22,6 +23,7 @@ function App() {
 <Navbar/>
 <Routes>
   <Route  path="/" element={<Home/>} />
+ 
 </Routes>
 <Footer/>
     
