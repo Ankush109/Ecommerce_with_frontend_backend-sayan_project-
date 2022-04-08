@@ -10,7 +10,7 @@ export const additemstocart = (id,quantity)=>async(dispatch,getstate)=>{
           product:data.product._id,
           name:data.product.name, 
           price:data.product.price,
-          iamge:data.product.images[0].url,
+          iamge:data.product.images.url,
           stock:data.product.stock,
           quantity,
       }

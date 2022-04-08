@@ -32,6 +32,7 @@ import NewProduct from "./components/Admin/Newproduct";
 import Updateproduct from "./components/Admin/Updateproduct";
 import Orderlist from "./components/Admin/Orderlist";
 import Processorder from "./components/Admin/Processorder";
+import Myorder from "./components/Myorders";
 
 function App() {
 
@@ -87,7 +88,7 @@ getstripeapikey()
 <Route path="/admin/products" element={<Productlist/>}/>
 <Route path="/admin/orders" element={<Orderlist/>}/>
 <Route path="/admin/order/:id" element={<Processorder/>}/>
-
+<Route   path='/orders' element={<Myorder/>}/>
 </Routes>
  <Footer/>
     
