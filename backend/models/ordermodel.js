@@ -1,17 +1,17 @@
  const mongoose = require("mongoose")
 const orderschema =new mongoose.Schema({
     shippinginfo:{
-        address:{type:String},
-        city:{type:String},
-        state:{type:String},
-        country:{type:String},
+        address:{type:String,required:true},
+        city:{type:String,required:true},
+        state:{type:String,required:true},
+        country:{type:String,required:true},
         pincode:{
             type:Number,
-            
+            required:true
         },
         phonenumber:{
             type:Number,
-            
+            required:true
         }
 
     },
@@ -19,13 +19,20 @@ const orderschema =new mongoose.Schema({
     {
         name:{
         type:String,
+        required:true
+      },
+      price:{
+        type:String,
+        required:true
       },
         phonenumber:{
             type:Number,
+            required:true
     
         },
         quantity:{
             type:Number,
+            required:true
    
         },
         image:{
@@ -35,6 +42,7 @@ const orderschema =new mongoose.Schema({
         product:{
             type:mongoose.Schema.ObjectId,
             ref:"product",
+            required:true
 
         }
     }
@@ -42,17 +50,12 @@ const orderschema =new mongoose.Schema({
 user:{
     type:mongoose.Schema.ObjectId,
     ref:"user",
-  
-},
-paymentinfo:{
-    id:{
-        type:String,
-        
-    }
+    required:true,
+
 },
 paidat:{
     type:Date,
-    
+    required:true
 },
 itemprice:{
     type:Number,

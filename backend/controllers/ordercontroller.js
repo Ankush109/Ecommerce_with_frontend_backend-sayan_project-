@@ -8,7 +8,7 @@ exports.neworder =catchasyncerrors(async(req,res,next)=>{
 
 const {shippinginfo,orderitems,itemsprice,shippingprice,totalprice}=req.body
 const order =await Order.create({
-    shippinginfo,orderitems,itemsprice,shippingprice,totalprice,paidat:Date.now()
+    shippinginfo,orderitems,itemsprice,shippingprice,totalprice,paidat:Date.now(),user:req.user._id
 
 })
 res.status(200).json({
