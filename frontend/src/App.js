@@ -24,15 +24,18 @@ import Confirmorder from "./components/Confirmorder";
 import axios from "axios";
 
 import Paymentop from "./components/Paymentop";
-import Myorders from "./components/Myorders";
+
 import Dashboard from "./components/Admin/Dashboard";
 import Productlist from "./components/Productlist";
-import Newproduct from "./components/Admin/Newproduct";
+
 import NewProduct from "./components/Admin/Newproduct";
-import Updateproduct from "./components/Admin/Updateproduct";
+
 import Orderlist from "./components/Admin/Orderlist";
 import Processorder from "./components/Admin/Processorder";
 import Myorder from "./components/Myorders";
+import OrderDetails from "./components/Orderdetails";
+import Alluser from "./components/Admin/Alluser";
+import UsersList from "./components/Admin/Alluser";
 
 function App() {
 
@@ -89,6 +92,8 @@ getstripeapikey()
 <Route path="/admin/orders" element={<Orderlist/>}/>
 <Route path="/admin/order/:id" element={<Processorder/>}/>
 <Route   path='/orders' element={<Myorder/>}/>
+<Route   path='/order/:id' element={<OrderDetails/>}/>
+<Route   path='/admin/users' element={<UsersList/>}/>
 </Routes>
  <Footer/>
     

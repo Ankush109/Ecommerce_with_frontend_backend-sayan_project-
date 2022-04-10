@@ -6,7 +6,7 @@ const {isauthenticateduser,authorizeroles} = require("../middelware/auth");
 
 
 router.route("/order/new").post(isauthenticateduser,neworder)
-router.route("/order/:id").get(isauthenticateduser,authorizeroles("admin"),getsingleorder)
+router.route("/order/:id").get(getsingleorder)
 
 router.route("/orders/me").get(isauthenticateduser,myorder)
 router.route("/admin/orders").get(isauthenticateduser,authorizeroles("admin"),getallorder)

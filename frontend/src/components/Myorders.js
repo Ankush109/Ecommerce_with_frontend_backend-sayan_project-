@@ -82,6 +82,7 @@ const MyOrders = () => {
     }
 
     dispatch(myorder());
+    console.log(orders.shippinginfo);
   }, [dispatch, alert, error]);
 
   return (
