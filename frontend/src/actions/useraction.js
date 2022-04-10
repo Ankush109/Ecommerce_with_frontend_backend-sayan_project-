@@ -138,7 +138,7 @@ export const deleteuser=(id)=>async(dispatch)=>{
     try{
         dispatch({type:DELETE_USER_REQUEST})
 
-        const {data} =await axios.delete(`/api/v1/admin/user/${id}`)
+        const {data} =await axios.delete(`/api/v1/admin/users/${id}`)
         dispatch({type:DELETE_USER_SUCCESS,payload:data.success})
 
 

@@ -35,6 +35,7 @@ const navigate =useNavigate()
     if (deleteError) {
       alert.error(deleteError);
       dispatch(clearerrors());
+      console.log(deleteError);
     }
 
     if (isdeleted) {
